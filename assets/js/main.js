@@ -4,7 +4,7 @@ import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.mjs
 
 // for navbar 
 const header = document.getElementById('header');
-fetch('/components/navbar.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/navbar.html').then((res)=> res.text()).then((data)=>{
     header.innerHTML = data;
 });
 
@@ -26,7 +26,7 @@ function counter(box,val){
 }
 
 const about = document.getElementById('about');
-fetch('/components/about.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/about.html').then((res)=> res.text()).then((data)=>{
     about.innerHTML = data;
 });
 
@@ -43,7 +43,7 @@ function startAnimation(){
 
 // for skills
 const skills = document.getElementById('skills');
-fetch('/components/skills.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/skills.html').then((res)=> res.text()).then((data)=>{
     skills.innerHTML = data;
 });
 
@@ -51,7 +51,7 @@ fetch('/components/skills.html').then((res)=> res.text()).then((data)=>{
 //for projects
 
 const projects = document.getElementById('projects');
-fetch('/components/projects.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/projects.html').then((res)=> res.text()).then((data)=>{
     projects.innerHTML = data;
     let swiperCards = new Swiper(".card__content", {
     loop: true,
@@ -80,17 +80,17 @@ fetch('/components/projects.html').then((res)=> res.text()).then((data)=>{
 
 
 const experience = document.getElementById('experience');
-fetch('/components/experience.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/experience.html').then((res)=> res.text()).then((data)=>{
     experience.innerHTML = data;
 });
 
 const education = document.getElementById('education');
-fetch('/components/education.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/education.html').then((res)=> res.text()).then((data)=>{
     education.innerHTML = data;
 });
 
 const achievements = document.getElementById('achievements');
-fetch('/components/achievements.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/achievements.html').then((res)=> res.text()).then((data)=>{
     achievements.innerHTML = data;
     let swiperCards = new Swiper(".card__content2", {
     loop: true,
@@ -120,7 +120,7 @@ fetch('/components/achievements.html').then((res)=> res.text()).then((data)=>{
 });
 
 const contact = document.getElementById('contact');
-fetch('/components/contact.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/contact.html').then((res)=> res.text()).then((data)=>{
     contact.innerHTML = data;
     const form = document.getElementById('form');
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -153,7 +153,7 @@ fetch('/components/contact.html').then((res)=> res.text()).then((data)=>{
 });
 
 const footer = document.getElementById('footer');
-fetch('/components/footer.html').then((res)=> res.text()).then((data)=>{
+fetch('./components/footer.html').then((res)=> res.text()).then((data)=>{
     footer.innerHTML = data;
 });
 
@@ -283,4 +283,5 @@ window.addEventListener("load", function(){
     // setTimeout(() => {
     //     startAnimation();
     // }, 500);
+
 });
