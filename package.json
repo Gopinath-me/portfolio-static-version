@@ -5,8 +5,5 @@
     "motion": "^12.23.22",
     "tailwindcss": "^4.1.17",
     "tailwindcss-motion": "^1.1.1"
-  },
-  "scripts":{
-    "build":"tsc -b && vite build"
   }
 }
