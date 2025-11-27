@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-ms: 20rem;
+}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@layer utilities {
+  .animate-zoom-in {
+    animation: zoom-in 0.7s ease-out forwards;
+  }
+
+  .animate-from-top{
+    animation: from-top 0.7s linear;
+  }
+  
+  .animate-blur{
+    animation: blur 1.5s linear;
+  }
+
+  .animate-from-l-r{
+    animation: from-l-r 0.7s ease-in-out;
+  }
+
+  
+
+  @keyframes from-l-r {
+    0% { transform: translateY(); opacity: 0.5; }
+    100% { transform: translateY(); opacity: 1; }
+  }
+
+
+  @keyframes zoom-in {
+    0% { transform: scale(0.85); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes from-top {
+    0% { transform: scale(0.85); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes blur {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+  
+}
+
+:root{
+  --my-color: var(--color-green-500);
+}
+
+::-webkit-scrollbar{
+  width: 3px;
+  height: 3px;
+}
+
+.loader {
+  width: 50px;
+  --b: 8px; 
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: 1px;
+  /* background: conic-gradient(#0000 10%,#f03355) content-box; */
+  /* -webkit-mask:
+    repeating-conic-gradient(#0000 0deg,#000 1deg 20deg,#0000 21deg 36deg),
+    radial-gradient(farthest-side,#0000 calc(100% - var(--b) - 1px),#000 calc(100% - var(--b))); */
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+  animation:l4 1s infinite steps(10);
+}
+@keyframes l4 {to{transform: rotate(1turn)}}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+::-webkit-scrollbar-track {
+background: #eee;}
+
+::-webkit-scrollbar-thumb {
+background: var(--my-color);}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card__container {
+  padding-block: 5rem;
+}
+
+.card__content,
+.card__content2 {
+  margin-inline: 1.75rem;
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.card__article {
+  width: 300px; /* Remove after adding swiper js */
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.card__image {
+  position: relative;
+  background-color: var(--first-color-light);
+  padding-top: 1.5rem;
+  margin-bottom: -.75rem;
+}
+
+.card__data {
+  background-color: var(--container-color);
+  border-radius: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.card__img {
+  margin: 0 auto;
+  position: relative;
+  z-index: 5;
+}
+
+.card__shadow {
+  width: 200px;
+  height: 200px;
+  background-color: var(--first-color-alt);
+  border-radius: 50%;
+  position: absolute;
+  top: 3.75rem;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  filter: blur(45px);
+}
+
+.card__name {
+  font-size: var(--h2-font-size);
+  color: var(--second-color);
+  margin-bottom: .75rem;
+}
+
+.card__description {
+  font-weight: 500;
+  margin-bottom: 1.75rem;
+}
+
+.card__button {
+  display: inline-block;
+  background-color: var(--first-color);
+  padding: .75rem 1.5rem;
+  border-radius: .25rem;
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+/* Swiper class */
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  content: "";
+}
+
+.swiper-button-prev2:after,
+.swiper-button-next2:after{
+  content: '';
+}
+
+.swiper-button-prev,
+.swiper-button-prev2,
+.swiper-button-next2,
+.swiper-button-next {
+  width: initial;
+  height: initial;
+  font-size: 3rem;
+  color: var(--second-color);
+  display: none;
+}
+
+.swiper-button-prev,
+.swiper-button-prev2 {
+  left: -14px !important;
+}
+
+.swiper-button-next,
+.swiper-button-next2 {
+  right: -14px !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--my-color) !important;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--my-color)!important;
+}
+
+/*=============== BREAKPOINTS ===============*/
+/* For small devices */
+@media screen and (max-width: 320px) {
+  .card__data {
+    /* padding: 1rem; */
+  }
+}
+
+/* For medium devices */
+@media screen and (min-width: 768px) {
+  .card__content {
+    margin-inline: 3rem;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: block;
+  }
+  .swiper-button-next2,
+  .swiper-button-prev2 {
+    display: block;
+  }
+}
