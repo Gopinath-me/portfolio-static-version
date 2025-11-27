@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@tailwindcss/cli": "^4.1.17",
-    "aos": "^2.3.4",
-    "motion": "^12.23.22",
-    "tailwindcss": "^4.1.17",
-    "tailwindcss-motion": "^1.1.1"
-  }
-}
