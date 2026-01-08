@@ -2,47 +2,6 @@ import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
 import 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.js';
 import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.mjs';
 
-const fetchPost = async (username) => {
-    const LEETCODE_API_ENDPOINT = 'https://leetcode.com/graphql';
-    return await fetch(LEETCODE_API_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Referer": "https://leetcode.com"
-    },
-    body: JSON.stringify({
-      query:`query userSessionProgress($username: String!) { 
-                allQuestionsCount {
-                    difficulty
-                        count
-                    }
-                matchedUser(username: $username){
-                    submitStats {
-                        acSubmissionNum {
-                            difficulty
-                                count
-                                    submissions
-                        }
-                        totalSubmissionNum {
-                            difficulty
-                                count
-                                    submissions
-                        }
-                    }
-                }
-            }`,
-      variables: { username }
-    })
-  }).then(res => {
-    if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
-    }
-    return res.json();
-  });
-};
-
-console.log(fetchPost('Gopinath5002'));
-
 function counter(box,val){
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -411,4 +370,5 @@ window.addEventListener("load", async function(){
     //     startAnimation();
     // }, 500);
 });
+
 
