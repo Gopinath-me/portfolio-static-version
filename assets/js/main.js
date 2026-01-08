@@ -73,50 +73,19 @@ const animateSliderObserver = new IntersectionObserver((entries) => {
     },{threshold:0.3}
 );
 
-async function fetchCount(username) {
+async function fetchCount() {
     try{
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/' 
-        const targetUrl = 'https://leetcode.com/graphql/';
-        const myHeaders = new Headers();
-        myHeaders.append("content-type", "application/json");
-        const graphql = JSON.stringify({
-            query: `query userSessionProgress($username: String!) { 
-                allQuestionsCount {
-                    difficulty
-                        count
-                    }
-                matchedUser(username: $username){
-                    submitStats {
-                        acSubmissionNum {
-                            difficulty
-                                count
-                                    submissions
-                        }
-                        totalSubmissionNum {
-                            difficulty
-                                count
-                                    submissions
-                        }
-                    }
-                }
-            }`,
-            variables: { "username": `${username}` }
-        })
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: graphql,
-        };
-        const response = await fetch(targetUrl, requestOptions);
-        if(!response.ok) {
+        const targetUrl = 'https://alfa-leetcode-api.onrender.com/Gopinath5002/solved';
+        const myresponse = await fetch(targetUrl);
+        if(!myresponse.ok) {
             throw new Error("Unable to fetch the User details");
         }
-        const parsedData = await response.json();
-        const totalCount = parsedData.data.matchedUser.submitStats.acSubmissionNum[0].count
-        return totalCount
+        const data = await myresponse.json();
+        return data;
     }
     catch(error) {
         console.error(error);
+        return {'solvedProblem':100};
     }
 }
 
@@ -352,7 +321,8 @@ function starter(){
 const loader_main = document.getElementById('loader-main');
 const others = document.getElementById('others')
 window.addEventListener("load", async function(){
-    const problemCount = await fetchCount('Gopinath5002');
+    const leetcodeData = await fetchCount();
+    const problemCount = leetcodeData['solvedProblem'];
     // const problemCount = 349;
     setTimeout(async () => {
         loader_main.classList.add('hidden');
@@ -370,5 +340,6 @@ window.addEventListener("load", async function(){
     //     startAnimation();
     // }, 500);
 });
+
 
 
