@@ -1,6 +1,12 @@
 import { animate } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
-import 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.js';
-import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.mjs';
+// import 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.js';
+// import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.mjs';
+
+var Swiper = null;
+
+const $ = (id) => document.getElementById(id);
+const $$ = (cls) => document.querySelectorAll(cls);
+var timeout = null;
 
 function counter(box,val){
     const observer = new IntersectionObserver((entries) => {
@@ -73,26 +79,42 @@ const animateSliderObserver = new IntersectionObserver((entries) => {
     },{threshold:0.3}
 );
 
-async function fetchCount() {
-    try{
-        const targetUrl = 'https://alfa-leetcode-api.onrender.com/Gopinath5002/solved';
-        const myresponse = await fetch(targetUrl);
-        if(!myresponse.ok) {
-            throw new Error("Unable to fetch the User details");
-        }
-        const data = await myresponse.json();
-        return data;
-    }
-    catch(error) {
-        console.error(error);
-        return {'solvedProblem':100};
-    }
+function openToast(icon,msg){
+    const toast = $('toast');
+    const prefixIcon = $('prefix-icon');
+    const message = $('message');
+    // const icon = '<i class="ri-error-warning-line"></i>'
+    // const msg = 'Please try again.'
+    prefixIcon.innerHTML = icon;
+    message.innerHTML = msg;
+    toast.classList.remove('translate-x-[100vw]');
+    const timing = document.getElementById('timing')
+    setTimeout(()=>{
+        timing.classList.add('-translate-x-full');
+    },100)
+    timeout = setTimeout(() => {
+        closeToast();
+        timeout = null;
+    }, 3000);
+}
+
+function closeToast(){
+    const toast = $('toast');
+    const timing = document.getElementById('timing')
+    toast.classList.add('translate-x-[100vw]');
+    timing.classList.remove('-translate-x-full')
 }
 
 async function submitForm() {
+    // openToast('<i class="ri-checkbox-circle-line">','Sent successfully');
+    // return;
+    if(timeout){
+        clearTimeout(timeout)
+        closeToast();
+    }
     const submitBtn = form.querySelector('button[type="submit"]');
     const formData = new FormData(form);
-    formData.append("access_key", "04acf39e-5c81-43dd-b7a1-fffdf21675c4");
+    formData.append("access_key", "04acf39e-5c81-43dd-b7a1-fffdf21675c");
     const originalText = submitBtn.textContent;
     submitBtn.textContent = "Sending...";
     submitBtn.disabled = true;
@@ -103,243 +125,237 @@ async function submitForm() {
         });
         const data = await response.json();
         if (response.ok) {
-            alert("Your message has been sent.");
+            // alert("Your message has been sent.");
+            openToast('<i class="ri-checkbox-circle-line">','Sent successfully');
             form.reset();
         } else {
-            alert("Error: " + data.message);
+            console.error(data.message);
+            // alert("Error: Something went wrong. Please try again.");
+            openToast('<i class="ri-error-warning-line"></i>','Please try again');
         }
     } catch (error) {
-        alert("Something went wrong. Please try again.");
+        // alert("Something went wrong. Please try again.");
+        console.error(error);
+        openToast('<i class="ri-error-warning-line"></i>','Please try again');
     } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
+        // form.reset();
     }
 }
+//<i class="ri-check-line"></i> <i class="ri-checkbox-circle-line"></i>
+async function loadSwiper() {
+  const { default: Swiper } = await import(
+    'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.mjs'
+  );
+  return Swiper;
+}
 
-const header = document.getElementById('header');
-fetch('/components/navbar.html').then((res)=> res.text()).then((data)=>{
-    header.innerHTML = data;
-});
-
-const about = document.getElementById('about');
-fetch('/components/about.html').then((res)=> res.text()).then((data)=>{
-    about.innerHTML = data;
-});
-
-const skills = document.getElementById('skills');
-fetch('/components/skills.html').then((res)=> res.text()).then((data)=>{
-    skills.innerHTML = data;
-});
-
-const projects = document.getElementById('projects');
-fetch('/components/projects.html').then((res)=> res.text()).then((data)=>{
-    projects.innerHTML = data;
-    let swiperCards = new Swiper(".card__content", {
+async function forProject(){
+    var Swiper = Swiper? Swiper : await loadSwiper();
+    new Swiper(".card__content", {
         loop: true,
         spaceBetween: 32,
         grabCursor: true,
-
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-            dynamicBullets: true,
-        },
-
+        pagination: { el: ".swiper-pagination", clickable: true, dynamicBullets: true },
         navigation: {
             nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            prevEl: ".swiper-button-prev"
         },
-
-        breakpoints:{
-            1024: {
-            slidesPerView: 2,
-            },
-        },
+        breakpoints: { 1024: { slidesPerView: 2 } }
     });
-});
+}
 
-const experience = document.getElementById('experience');
-fetch('/components/experience.html').then((res)=> res.text()).then((data)=>{
-    experience.innerHTML = data;
-});
-
-const education = document.getElementById('education');
-fetch('/components/education.html').then((res)=> res.text()).then((data)=>{
-    education.innerHTML = data;
-});
-
-const achievements = document.getElementById('achievements');
-fetch('/components/achievements.html').then((res)=> res.text()).then((data)=>{
-    achievements.innerHTML = data;
-    let swiperCards2 = new Swiper(".card__content2", {
+async function forAchievement(){
+    var Swiper = Swiper? Swiper : await loadSwiper();
+    new Swiper(".card__content2", {
         loop: true,
         spaceBetween: 32,
         grabCursor: true,
-        pagination: {
-            el: ".swiper-pagination2",
-            clickable: true,
-            dynamicBullets: true,
-        },
+        pagination: { el: ".swiper-pagination2", clickable: true, dynamicBullets: true },
         navigation: {
             nextEl: ".swiper-button-next2",
-            prevEl: ".swiper-button-prev2",
+            prevEl: ".swiper-button-prev2"
         },
-        breakpoints:{
-            720: {
-            slidesPerView: 2,
-            },
-            1174:{
-                slidesPerView:3
-            },
-            1700:{
-                slidesPerView:4
-            }
-        },
+        breakpoints: {
+            720: {slidesPerView: 2},
+            1174:{slidesPerView:3},
+            1700:{slidesPerView:4}
+        }
     });
-});
+}
 
-const contact = document.getElementById('contact');
-fetch('/components/contact.html').then((res)=> res.text()).then((data)=>{
-    contact.innerHTML = data;
-    const form = document.getElementById('form');
+function forContact(){
+    const form = $('form');
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         submitForm();
     });
-});
+}
 
-const footer = document.getElementById('footer');
-fetch('/components/footer.html').then((res)=> res.text()).then((data)=>{
-    footer.innerHTML = data;
-});
-
-function startAnimation(problemCount){
-    const Tcount = document.getElementById('tech-count');
+function countingAnimation(problemCount){
+    const Tcount = $('tech-count');
     counter(Tcount,9);
-    const Pcount = document.getElementById('project-count');
+    const Pcount = $('project-count');
     counter(Pcount,3)
-    const Prcount = document.getElementById('problem-count');
+    const Prcount = $('problem-count');
     counter(Prcount,problemCount)
-    const Acount = document.getElementById('achievement-count');
+    const Acount = $('achievement-count');
     counter(Acount,9)
 }
 
-function starter(){
-    const icons = document.querySelectorAll('.icons')
-    icons.forEach(icon=> animationObserver.observe(icon))
-    const boxes = document.querySelectorAll('.animatebox')
-    boxes.forEach(box=> animateBoxObserver.observe(box))
-    const sliders = document.querySelectorAll('.animateslider')
-    sliders.forEach(slider=> animateSliderObserver.observe(slider))
-    const m_navbar = document.getElementById('m-navbar');
-    const x = document.getElementById('x');
-    const dashicon = document.getElementById('dash-icon');
-    const mynav = document.getElementById('mynav');
-    const light = document.getElementById('light');
-    const dark = document.getElementById('dark');
-    const light2 = document.getElementById('light2');
-    const dark2 = document.getElementById('dark2');
-    const color_picker = document.getElementById('color-picker');
-    const color_picker2 = document.getElementById('color-picker2');
-    const m_navbar2 = document.getElementById('m-navbar2');
-    const mynav2 = document.getElementById('mynav2');
-    function activateLightMode(){
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('data-theme','light');
-    }
-    function activateDarkMode(){
-        document.documentElement.setAttribute("data-theme", "dark");
-        localStorage.setItem('data-theme','dark');
-    }
+function darkMode(){
+    document.documentElement.setAttribute("data-theme", "dark");
+    localStorage.setItem('data-theme','dark');
+}
+
+function lightMode(){
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('data-theme','light');
+}
+
+function activateListener(){
+    const m_navbar = $('m-navbar');
+    const x = $('x');
+    const dashicon = $('dash-icon');
+    const mynav = $('mynav');
+    const light = $('light');
+    const dark = $('dark');
+    const light2 = $('light2');
+    const dark2 = $('dark2');
+    const color_picker = $('color-picker');
+    const color_picker2 = $('color-picker2');
+    const m_navbar2 = $('m-navbar2');
+    const mynav2 = $('mynav2');
+    const closetoast = $('close-toast');
+
+    closetoast.addEventListener('click',()=>{
+        closeToast();
+    })
+
     light.addEventListener('click',()=>{
-        activateLightMode();
-    })
+        lightMode();
+    });
     dark.addEventListener('click',()=>{
-        activateDarkMode();
-    })
+        darkMode();
+    });
     light2.addEventListener('click',()=>{
-        activateLightMode();
-    })
+        lightMode();
+    });
     dark2.addEventListener('click',()=>{
-        activateDarkMode();
-    })
+        darkMode();
+    });
 
     color_picker.addEventListener('click',()=>{
         m_navbar2.classList.remove('w-0');
-        m_navbar2.classList.add('w-40');
-        m_navbar2.classList.add('border-2');
+        m_navbar2.classList.add('w-40','border-2');
         mynav2.classList.remove('w-0');
         mynav2.classList.add('w-40');
-    })
+    });
     
     color_picker2.addEventListener('click',()=>{
         m_navbar2.classList.remove('w-0');
-        m_navbar2.classList.add('w-40');
-        m_navbar2.classList.add('border-2');
+        m_navbar2.classList.add('w-40','border-2');
         mynav2.classList.remove('w-0');
         mynav2.classList.add('w-40');
-    })
+    });
+
     dashicon.addEventListener('click',()=>{
         m_navbar.classList.remove('w-0');
-        m_navbar.classList.add('w-64');
-        m_navbar.classList.add('border-2');
+        m_navbar.classList.add('w-64','border-2');
         mynav.classList.remove('w-0');
         mynav.classList.add('w-64');
     });
+
     document.addEventListener('click',(e)=>{
         if(e.target!=dashicon){
-            m_navbar.classList.remove('w-64');
+            m_navbar.classList.remove('w-64','border-2');
             m_navbar.classList.add('w-0');
-            m_navbar.classList.remove('border-2');
             mynav.classList.remove('w-64');
             mynav.classList.add('w-0');
         }
         if(e.target!=color_picker && e.target!=color_picker2){
-            m_navbar2.classList.remove('w-40');
+            m_navbar2.classList.remove('w-40','border-2');
             m_navbar2.classList.add('w-0');
-            m_navbar2.classList.remove('border-2');
             mynav2.classList.remove('w-40');
             mynav2.classList.add('w-0');
         }
-    })
+    });
+
     x.addEventListener('click',()=>{ 
-        m_navbar.classList.remove('w-64');
+        m_navbar.classList.remove('w-64','border-2');
         m_navbar.classList.add('w-0');
-        m_navbar.classList.remove('border-2');
         mynav.classList.remove('w-64');
         mynav.classList.add('w-0');
-    })
+    });
+
     x2.addEventListener('click',()=>{
-        m_navbar2.classList.remove('w-40');
+        m_navbar2.classList.remove('w-40','border-2');
         m_navbar2.classList.add('w-0');
-        m_navbar2.classList.remove('border-2');
         mynav2.classList.remove('w-40');
         mynav2.classList.add('w-0');
-    })
+    });
 }
 
-const loader_main = document.getElementById('loader-main');
-const others = document.getElementById('others')
-window.addEventListener("load", async function(){
-    const leetcodeData = await fetchCount();
-    const problemCount = leetcodeData['solvedProblem'];
-    // const problemCount = 349;
-    setTimeout(async () => {
-        loader_main.classList.add('hidden');
-        others.classList.remove('hidden');
-        loader_main.innerHTML='';
-        starter();
-        setTimeout(() => {
-            startAnimation(problemCount);
-        }, 500);
-    }, 3000);
-    // loader_main.classList.add('hidden');
-    // others.classList.remove('hidden');
-    // loader_main.innerHTML='';
-    // setTimeout(() => {
-    //     startAnimation();
-    // }, 500);
-});
+async function fetchCount() {
+    try{
+        const targetUrl = 'https://alfa-leetcode-api.onrender.com/Gopinath5002/solved';
+        const myresponse = await fetch(targetUrl);
+        const data = await myresponse.json();
+        return data;
+    }
+    catch(error) {
+        console.error(error);
+        return {'solvedProblem':100};
+    }
+}
 
+function loadPage(){
+    const loader_main = $('loader-main');
+    const others = $('others');
 
+    // const leetcodeData = await fetchCount();
+    // const problemCount = leetcodeData['solvedProblem'];
+    const problemCount = 100;
 
+    loader_main.classList.add('hidden');
+    others.classList.remove('hidden');
+    loader_main.innerHTML='';
+
+    activateListener();
+
+    const icons = document.querySelectorAll('.icons');
+    icons.forEach(icon=> animationObserver.observe(icon));
+    const boxes = document.querySelectorAll('.animatebox');
+    boxes.forEach(box=> animateBoxObserver.observe(box));
+    const sliders = document.querySelectorAll('.animateslider');
+    sliders.forEach(slider=> animateSliderObserver.observe(slider));
+    setTimeout(() => {
+        countingAnimation(problemCount);
+    }, 500);
+}
+
+async function loadComponent(id, path, callback) {
+  const res = await fetch(path);
+  $(id).innerHTML = await res.text();
+  if(callback){
+    callback();
+  }
+}
+
+async function start(params) {
+    await Promise.all([
+        loadComponent('header', '/components/navbar.html'),
+        loadComponent('about', '/components/about.html'),
+        loadComponent('skills', '/components/skills.html'),
+        loadComponent('projects', '/components/projects.html',forProject),
+        loadComponent('experience', '/components/experience.html'),
+        loadComponent('education', '/components/education.html'),
+        loadComponent('achievements', '/components/achievements.html',forAchievement),
+        loadComponent('contact', '/components/contact.html',forContact),
+        loadComponent('footer', '/components/footer.html')
+        ]);
+    loadPage();
+}
+
+start();
