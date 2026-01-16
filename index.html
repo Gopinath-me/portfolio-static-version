@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="P2yYrJ7wPdHR_eXF57zlqvO0fdKrgczM3taCeV514nc" />
+  <meta name="robots" content="index, follow">
   <meta name="description" content="Gopinath the Developer – Full stack developer specializing in HTML, CSS, JavaScript, Python, and MySQL. View portfolio and projects.">
   <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="./assets/css/output.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
@@ -14,7 +17,6 @@
   <title>Gopinath</title>
 </head>
 <body class="mx-4 md:mx-8 lg:mx-16 xl:mx-32 font-mono dark:bg-black dark:text-white">
-  <h1 class="hidden">Gopinath the Developer .</h1>
   <script>
       function changeAddressBar(color){
         const themeColorMeta = document.querySelector('meta[name="theme-color"]');
@@ -43,6 +45,21 @@
     <div class="loader z-1000 bg-origin-content [background:conic-gradient(#0000_10%,var(--my-color))_content-box]! [-webkit-mask:radial-gradient(farthest-side,#0000_calc(100%-var(--b)-1px),#000_calc(100%-var(--b))),repeating-conic-gradient(#0000_0deg,#000_1deg_20deg,#0000_21deg_36deg)]">
     </div>
   </div>
+  <div class="fixed z-100 top-24 left-1/2 -translate-x-1/2 overflow-hidden text-(--my-color)">
+      <div id="toast" class="dark:bg-black transition-all duration-300 bg-white rounded-sm border border-(--my-color) overflow-hidden translate-x-[100vw] shadow-(color:--my-color) shadow-lg ">
+        <div class="relative rounded-sm text-base md:text-md lg:text-lg xl:text-xl flex gap-2 pl-3">
+          <div id="prefix-icon" class="flex items-center">
+          </div>
+          <div id="message" class="flex whitespace-nowrap items-center py-2">
+          </div>
+          <div id="close-toast" class="flex rounded-sm mr-1 items-center cursor-pointer">
+            <div class="bg-(--my-color) h-full w-px"></div>
+            <div class="px-3"><i class="ri-close-fill"></i></div>
+          </div>
+        </div>
+        <div id="timing" class="absolute bottom-0 left-0 w-full h-1.5 bg-(--my-color) transition-all duration-3000 ease-linear"></div>
+      </div>
+    </div>
   <div id="others" class="hidden">
     <div id="header" class="animate-from-top sticky px-3 md:px-5 top-0 z-50 h-16 dark:bg-black bg-white pt-5 scroll-mt-20 shadow-(color:--my-color) shadow-lg rounded-xl"></div>
     <div id="about" class="mt-2 scroll-mt-20"></div>
@@ -55,7 +72,7 @@
     <div id="contact" class="scroll-mt-20 mt-14"></div>
     <div id="footer" class="mt-12 lg:mt-14"></div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script> -->
   <script type="module" src="./assets/js/main.js"></script>
 </body>
 </html>
