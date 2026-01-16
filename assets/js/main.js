@@ -314,9 +314,9 @@ function loadPage(){
     const loader_main = $('loader-main');
     const others = $('others');
 
-    // const leetcodeData = await fetchCount();
-    // const problemCount = leetcodeData['solvedProblem'];
-    const problemCount = 100;
+    const leetcodeData = await fetchCount();
+    const problemCount = leetcodeData['solvedProblem'];
+    // const problemCount = 100;
 
     loader_main.classList.add('hidden');
     others.classList.remove('hidden');
@@ -359,3 +359,4 @@ async function start(params) {
 }
 
 start();
+
