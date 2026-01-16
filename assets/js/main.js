@@ -310,7 +310,7 @@ async function fetchCount() {
     }
 }
 
-function loadPage(){
+async function loadPage(){
     const loader_main = $('loader-main');
     const others = $('others');
 
@@ -359,4 +359,5 @@ async function start(params) {
 }
 
 start();
+
 
